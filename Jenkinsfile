@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Docker Build') {
             steps {
-                sh 'docker buildx buiild -t jenkins-demo:${BUILD_NUMBER} .'
+                bat 'docker buildx buiild -t jenkins-demo:${BUILD_NUMBER} .'
             }
         }
     }
@@ -19,7 +19,7 @@ pipeline {
             cleanWs()
         }
         success { 
-            sh 'docker rmi jenkins-demo:${BUILD_NUMBER}'
+            bat 'docker rmi jenkins-demo:${BUILD_NUMBER}'
         }
     }
 }
