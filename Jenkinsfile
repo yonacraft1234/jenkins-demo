@@ -6,38 +6,10 @@ pipeline {
         disableConcurrentBuilds()
     }
 
-    tools {
-        nodejs 'NodeJS-22'
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Install') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-
         stage('Docker Build') {
             steps {
-                sh 'docker build -t jenkins-demo:${BUILD_NUMBER} .'
+                sh 'docker buildx buiild -t jenkins-demo:${BUILD_NUMBER} .'
             }
         }
     }
@@ -45,6 +17,9 @@ pipeline {
     post {
         always {
             cleanWs()
+        }
+        success { 
+            sh 'docker rmi jenkins-demo:${BUILD_NUMBER}'
         }
     }
 }
