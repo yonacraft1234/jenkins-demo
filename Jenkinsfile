@@ -21,6 +21,11 @@ pipeline {
                 aiAgent(
                     agent: omp(),
                     yoloMode: true,
+                    // Jenkins runs as LocalSystem: omp is not on its PATH and ~/.omp is the system profile.
+                    executablePath: 'C:\\Users\\yonac\\AppData\\Roaming\\omp\\omp.exe',
+                    environmentVariables: '''USERPROFILE=C:\\Users\\yonac
+HOME=C:\\Users\\yonac
+PI_CODING_AGENT_DIR=C:\\Users\\yonac\\.omp\\agent''',
                     prompt: """You are running as a Jenkins post-failure step for build #${env.BUILD_NUMBER} of job '${env.JOB_NAME}'.
 The build URL is ${env.BUILD_URL} and the branch under test is '${env.BRANCH_NAME}'.
 
