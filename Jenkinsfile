@@ -18,14 +18,10 @@ pipeline {
         failure {
             checkout scm
             withCredentials([usernamePassword(credentialsId: 'jenkins-api-token', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_TOKEN'), usernamePassword(credentialsId: 'github-api-token', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
-                aiAgent(
-                    agent: omp(),
+                aiAgent(,
                     yoloMode: true,
-                    // Jenkins runs as LocalSystem: omp is not on its PATH and ~/.omp is the system profile.
-                    executablePath: 'C:\\Users\\yonac\\AppData\\Roaming\\omp\\omp.exe',
-                    environmentVariables: '''USERPROFILE=C:\\Users\\yonac
-HOME=C:\\Users\\yonac
-PI_CODING_AGENT_DIR=C:\\Users\\yonac\\.omp\\agent''',
+                    model: 'claude-sonnet-5-5',
+                    reasoningEffort: 'medium',
                     prompt: """You are running as a Jenkins post-failure step for build #${env.BUILD_NUMBER} of job '${env.JOB_NAME}'.
 The build URL is ${env.BUILD_URL} and the branch under test is '${env.BRANCH_NAME}'.
 
