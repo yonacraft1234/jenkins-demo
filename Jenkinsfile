@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Docker Build') {
             steps {
-                bat "docker buildx builld -t jenkins-demo:${env.BUILD_NUMBER} ."
+                bat "docker buildx build -t jenkins-demo:${env.BUILD_NUMBER} ."
             }
         }
     }
