@@ -18,11 +18,12 @@ pipeline {
         failure {
             checkout scm
             withCredentials([usernamePassword(credentialsId: 'jenkins-api-token', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_TOKEN'), usernamePassword(credentialsId: 'github-api-token', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
-                aiAgent(,
+                aiAgent(
                     yoloMode: true,
                     model: 'claude-sonnet-5-5',
                     reasoningEffort: 'medium',
-                    prompt: """You are running as a Jenkins post-failure step for build #${env.BUILD_NUMBER} of job '${env.JOB_NAME}'.
+                    prompt: """
+You are running as a Jenkins post-failure step for build #${env.BUILD_NUMBER} of job '${env.JOB_NAME}'.
 The build URL is ${env.BUILD_URL} and the branch under test is '${env.BRANCH_NAME}'.
 
 Mission, in order:
